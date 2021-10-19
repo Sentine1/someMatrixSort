@@ -8,7 +8,7 @@ namespace someMatrixSort.basic
 {
     class PrintMatrix
     {
-        public static void Print(double[][]   input)
+        public static void Print(double[][]   input, double[]  answer)
         {
             var n = input.Length;
             for (int i = 0; i < n; i++)
@@ -17,8 +17,9 @@ namespace someMatrixSort.basic
                 {
                     if (j + 1 != n) 
                         Console.Write(input[i][j]+ "\t");
-                    else Console.WriteLine(input[i][j]+"\n");
-                }              
+                    else Console.Write(input[i][j]+ "  : ");
+                }
+                Console.WriteLine(answer[i] + "\n");
             }
         }
     }
