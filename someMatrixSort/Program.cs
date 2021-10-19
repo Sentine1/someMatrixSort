@@ -22,7 +22,7 @@ namespace someMatrixSort
             element.matrix = matrix;
             element.answer = freeMembers;
             PrintMatrix.Print(matrix, freeMembers);
-
+            int testt = 0;
             for (int i = 0; i < element.row - 1; i++)
             {
                 element.SortRows(i);
@@ -34,14 +34,48 @@ namespace someMatrixSort
                         for (int k = i; k < element.columns; k++)
                             matrix[j][k] -=  matrix[i][k] * MultElement;
                         freeMembers[j] -= freeMembers[i] * MultElement;
-                    }
-                    
+                    }                    
                 }
             }
 
-            // make some magick for GaussianAlgoritm (clear for push)
+            //Теперь зануляем верхнюю половину матрицы
+            for (int i = element.row - 1; i >= 0; i--) 
+            {
+                for (int j = i - 1; j >= 0; j--) 
+                {
+                    if (matrix[i][i] != 0)
+                    {
+                        double MultElement = matrix[j][i] / matrix[i][i];
+                        
+                        for (int k = j; k >= 0; k--)
+                        {
+                                matrix[j][k] -= matrix[i][k] * MultElement;
+                           testt++;
+                        } 
+                        //freeMembers[j] -= freeMembers[i] * MultElement;
+                    }
+                }
+            }
+ Console.Write(testt);
+            for (int i =element.row - 1; i >= 0; i--)
+            {
+                element.answer[i] = freeMembers[i];
 
-            Console.WriteLine("\n\n\n");
+                for (int j = element.row - 1; j > i; j--)
+                    element.answer[i] -= matrix[i][j] * element.answer[j];
+
+                if (matrix[i][i] == 0)
+                    if (freeMembers[i] == 0)
+                        throw new Exception(" 2; //множество решений");
+                    else
+                        throw new Exception(" 1; //нет решения");
+
+                element.answer[i] /= matrix[i][i];
+            }
+        
+        // make some magick for GaussianAlgoritm (clear for push)
+
+        Console.WriteLine("\n\n\n");
             PrintMatrix.Print(matrix,freeMembers);
             Console.ReadKey();
 

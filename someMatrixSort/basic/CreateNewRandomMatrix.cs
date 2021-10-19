@@ -14,14 +14,7 @@ namespace someMatrixSort.basic
 
             var matrix = CreateRandomMatrix(matrixSize, matrixSize);
             var freeMembers = GetRandomFreeMembers(matrix);
-            var iRow = random.Next(matrixSize);
-            int jRow;
-            do
-            {
-                jRow = random.Next(matrixSize);
-            } while (iRow == jRow);
-            matrix[iRow] = matrix[jRow].ToArray();
-            freeMembers[iRow] = isSolvable ? freeMembers[jRow] : freeMembers[jRow] + 1;
+            
             return (matrix, freeMembers);
         }
         private double[] GetRandomFreeMembers(double[][] matrix)
