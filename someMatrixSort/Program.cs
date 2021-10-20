@@ -17,12 +17,11 @@ namespace someMatrixSort
         {
             var element = new Program();
             var start = new CreateNewRandomMatrix();
-
             (var matrix, var freeMembers) = start.CreateRandomSystemWithLinearlyDependentRows(element.row, false);
             element.matrix = matrix;
             element.answer = freeMembers;
             PrintMatrix.Print(matrix, freeMembers);
-            int testt = 0;
+
             for (int i = 0; i < element.row - 1; i++)
             {
                 element.SortRows(i);
@@ -32,31 +31,22 @@ namespace someMatrixSort
                     {
                         double MultElement = matrix[j][i] / matrix[i][i];
                         for (int k = i; k < element.columns; k++)
-                            matrix[j][k] -=  matrix[i][k] * MultElement;
+                            matrix[j][k] -= matrix[i][k] * MultElement;
                         freeMembers[j] -= freeMembers[i] * MultElement;
                     }                    
                 }
             }
-
-            //Теперь зануляем верхнюю половину матрицы
-            for (int i = element.row - 1; i >= 0; i--) 
+            //Обратный ход (Зануление верхнего правого угла)
+            for (int k = element.row - 1; k > -1; k--)
             {
-                for (int j = i - 1; j >= 0; j--) 
+                for (int i = k - 1; i > -1; i--)
                 {
-                    if (matrix[i][i] != 0)
-                    {
-                        double MultElement = matrix[j][i] / matrix[i][i];
-                        
-                        for (int k = j; k >= 0; k--)
-                        {
-                                matrix[j][k] -= matrix[i][k] * MultElement;
-                           testt++;
-                        } 
-                        //freeMembers[j] -= freeMembers[i] * MultElement;
-                    }
+                    double K = matrix[i][k] / matrix[k][k];                   
+                    matrix[i][k] = matrix[i][k] - matrix[k][k] * K;
+                    freeMembers[i] -= matrix[k][k] * K;                    
                 }
             }
- Console.Write(testt);
+
             for (int i =element.row - 1; i >= 0; i--)
             {
                 element.answer[i] = freeMembers[i];
@@ -72,8 +62,6 @@ namespace someMatrixSort
 
                 element.answer[i] /= matrix[i][i];
             }
-        
-        // make some magick for GaussianAlgoritm (clear for push)
 
         Console.WriteLine("\n\n\n");
             PrintMatrix.Print(matrix,freeMembers);
